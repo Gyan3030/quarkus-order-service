@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: orderdb
     ports:
       - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   kafka:
     image: apache/kafka:4.0.0
@@ -26,6 +28,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    volumes:
+      - kafka_data:/var/lib/kafka/data
 
   opensearch:
     image: opensearchproject/opensearch:2.19.1
@@ -35,6 +39,8 @@ services:
       DISABLE_SECURITY_PLUGIN: "true"
     ports:
       - "9200:9200"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
 
   dashboards:
     image: opensearchproject/opensearch-dashboards:2.19.1
@@ -46,6 +52,8 @@ services:
       - "5601:5601"
     depends_on:
       - opensearch
+    volumes:
+      - dashboards_data:/usr/share/opensearch-dashboards/data
 
   app:
     build: .
@@ -57,3 +65,8 @@ services:
       - kafka
       - opensearch
 
+volumes:
+  postgres_data:
+  kafka_data:
+  opensearch_data:
+  dashboards_data:

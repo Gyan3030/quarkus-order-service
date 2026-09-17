@@ -30,7 +30,7 @@ public class OrderConsumer {
         String json = objectMapper.writeValueAsString(event);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:9200/orders/_doc/" + event.orderId))
+                .uri(URI.create("http://opensearch:9200/orders/_doc/" + event.orderId))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
